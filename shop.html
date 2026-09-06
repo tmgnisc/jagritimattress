@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Jagriti Mattress Pvt. Ltd. — Sleep well. Wake refreshed.</title>
-  <meta name="description" content="Jagriti Mattress Pvt. Ltd. — international comfort, made with care in Nepal. Two decades of sleep expertise in every layer.">
+  <title>Shop mattresses — Jagriti Mattress Pvt. Ltd.</title>
+  <meta name="description" content="Browse the full Jagriti collection — everyday, premium and signature mattresses, pillows and toppers, made in Nepal.">
 
   <link rel="icon" href="assets/favicon.png" type="image/png">
 
@@ -23,7 +23,7 @@
 <body class="bg-cream">
 
   <!-- ============================================================
-       1. TOP NAV
+       TOP NAV (shared markup with index.html)
        ============================================================ -->
   <nav class="navbar navbar-expand-lg site-nav sticky-top" id="siteNav">
     <div class="container">
@@ -45,15 +45,15 @@
 
       <div class="collapse navbar-collapse" id="mainNav">
         <ul class="navbar-nav mx-lg-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link nav-active" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link nav-active" href="shop.html">Shop</a></li>
           <li class="nav-item"><a class="nav-link" href="our-difference.html">Our difference</a></li>
           <li class="nav-item"><a class="nav-link" href="our-story.html">Our story</a></li>
           <li class="nav-item"><a class="nav-link" href="visit-us.html">Visit us</a></li>
         </ul>
 
         <div class="d-flex align-items-center gap-2 gap-lg-3">
-          <a class="nav-icon-btn" href="shop.html" aria-label="Search the collection"><i class="bi bi-search"></i></a>
+          <button class="nav-icon-btn" type="button" data-focus-search aria-label="Search the collection"><i class="bi bi-search"></i></button>
           <a class="nav-link d-none d-lg-inline text-nowrap" href="track-order.html">Track order</a>
           <button class="btn btn-dark rounded-pill bag-btn d-inline-flex align-items-center gap-2" type="button" data-bag-button>
             <i class="bi bi-bag"></i> Bag
@@ -68,114 +68,64 @@
   <main>
 
     <!-- ============================================================
-         2. HERO
+         SHOP HERO
          ============================================================ -->
-    <section class="hero bg-mint py-5">
+    <section class="bg-mint py-5">
       <div class="container py-lg-5">
-        <div class="row align-items-center g-4 g-lg-5">
-
-          <div class="col-lg-6">
-            <span class="eyebrow">&mdash; Made for the way you rest</span>
+        <div class="row">
+          <div class="col-lg-8">
+            <span class="eyebrow">&mdash; The full collection</span>
             <h1 class="headline-xl mb-4">
-              International comfort.<br>
-              <span class="text-accent">Trusted experience.</span><br>
-              Made in Nepal.
+              A better night,<br>
+              <span class="text-accent">made in Nepal.</span>
             </h1>
-            <p class="lead-jag mb-4">
-              Every Jagriti mattress is built layer by layer in our Kathmandu workshop &mdash;
-              tested for Nepali homes, Nepali nights and the way you actually sleep.
+            <p class="lead-jag mb-0">
+              Two mattresses in production right now &mdash; the sprung Core Plus and the
+              natural coir EcoFeel &mdash; both built on our own floor in Sankharapur, in any
+              size you need. More lines are on the way.
             </p>
-
-            <div class="d-flex flex-wrap align-items-center gap-3 mb-4">
-              <a href="shop.html" class="btn btn-accent rounded-pill btn-lg-pill">Explore the collection &rarr;</a>
-              <a href="our-story.html" class="link-arrow">Our story</a>
-            </div>
-
-            <span class="trust-badge">
-              <i class="bi bi-patch-check text-accent"></i> 20+ years of sleep expertise
-            </span>
           </div>
+        </div>
+      </div>
+    </section>
 
-          <div class="col-lg-6">
-            <div class="hero-figure">
-              <div class="hero-blob"></div>
-              <div class="hero-photo">
-                <img src="assets/hero-bedroom.jpg" alt="A Jagriti mattress dressed in white linen in a warm, styled bedroom">
+    <!-- ============================================================
+         SEARCH BAR
+         ============================================================ -->
+    <section class="bg-cream pt-5">
+      <div class="container">
+
+        <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3 mb-4">
+          <div class="input-group rounded-pill overflow-hidden" style="max-width: 340px;">
+            <input type="search" class="form-control search-input border-0" placeholder="Search the collection"
+                   aria-label="Search the collection" data-search-input>
+            <span class="input-group-text search-icon border-0"><i class="bi bi-search"></i></span>
+          </div>
+          <a href="visit-us.html" class="link-arrow text-nowrap">Not sure which? Ask us &rarr;</a>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center border-top pt-3 mb-4">
+          <p class="result-count mb-0" data-result-count>Showing 2 of 2 pieces</p>
+          <button class="btn btn-link p-0 link-arrow border-0" type="button" data-reset-filters>Reset search</button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         PRODUCT GRID — edit copy directly in the markup below
+         ============================================================ -->
+    <section class="bg-cream pb-5">
+      <div class="container">
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4" data-product-grid>
+
+          <div class="col" data-product data-category="everyday" data-comfort="firm" data-name="Core Plus Mattress">
+            <article class="card product-card tint-mint h-100 border-0 shadow-sm">
+              <div class="product-media">
+                <img src="assets/core-plus-1.jpeg" alt="Jagriti Core Plus mattress with a quilted white top and gold damask border, on the tape-edging table">
+                <span class="badge rounded-pill pill-comfort">Medium firm</span>
               </div>
-              <span class="chip-float chip-top-left">
-                <span class="chip-dot"></span> Core Plus &middot; Queen
-              </span>
-              <span class="chip-float chip-bottom-right">
-                Build for free <i class="bi bi-caret-right-fill text-accent"></i>
-              </span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         3. STATS BAR
-         ============================================================ -->
-    <section class="bg-navy py-5" id="difference">
-      <div class="container py-lg-3">
-        <div class="row align-items-center g-4">
-
-          <div class="col-lg-3">
-            <span class="eyebrow eyebrow-light">&mdash; Why Jagriti</span>
-            <h2 class="headline-md mb-0">Sleep, your way.</h2>
-          </div>
-
-          <div class="col-6 col-lg-3 stat-divider ps-lg-5">
-            <p class="stat-value mb-1">20+</p>
-            <p class="stat-label mb-0">years of expertise</p>
-          </div>
-
-          <div class="col-6 col-lg-3 stat-divider ps-lg-5">
-            <p class="stat-value mb-1">Nepal</p>
-            <p class="stat-label mb-0">made with care, here</p>
-          </div>
-
-          <div class="col-12 col-lg-3 stat-divider ps-lg-5">
-            <p class="stat-value mb-1">Spring<span class="text-accent"> / </span>coir</p>
-            <p class="stat-label mb-0">two builds, made to order</p>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         4. FEATURED PRODUCTS
-         ============================================================ -->
-    <section class="bg-cream py-5">
-      <div class="container py-lg-4">
-
-        <div class="row align-items-center g-4 g-lg-5">
-
-          <div class="col-lg-5">
-            <span class="eyebrow">&mdash; What we are making now</span>
-            <h2 class="headline-lg mb-4">
-              Two mattresses.<br>One standard.
-            </h2>
-            <p class="lead-jag mb-4">
-              A sprung one and a coir one, both built and finished on our own floor in
-              Sankharapur. Every size is made to order, and we confirm the price with you
-              before anything is cut.
-            </p>
-            <a href="shop.html" class="link-arrow">See both in detail &rarr;</a>
-          </div>
-
-          <div class="col-lg-6 offset-lg-1">
-            <div class="row row-cols-1 row-cols-sm-2 g-4">
-
-              <div class="col" data-product data-category="everyday" data-comfort="firm" data-name="Core Plus Mattress">
-                <article class="card product-card tint-mint h-100 border-0 shadow-sm">
-                  <div class="product-media">
-                    <img src="assets/core-plus-1.jpeg" alt="Jagriti Core Plus mattress with a quilted white top and gold damask border, on the tape-edging table">
-                    <span class="badge rounded-pill pill-comfort">Medium firm</span>
-                  </div>
                   <div class="card-body p-4 d-flex flex-column">
                     <span class="eyebrow mb-2">Bonnell spring</span>
                     <h3 class="product-title">Core Plus Mattress</h3>
@@ -218,171 +168,33 @@
                 </article>
               </div>
 
-            </div>
-          </div>
-
         </div>
+
+        <!-- Empty state (shown by main.js when nothing matches) -->
+        <div class="empty-state d-none my-5" data-empty-state>
+          <p class="headline-md mb-2">Nothing matches that just yet.</p>
+          <p class="mb-0">Try a different comfort level, or <button class="btn btn-link p-0 link-arrow border-0 align-baseline" type="button" data-reset-filters>reset the filters</button>.</p>
+        </div>
+
       </div>
     </section>
 
     <!-- ============================================================
-         5. CTA BANNER
+         CLOSING CTA STRIP
          ============================================================ -->
     <section class="bg-cream pb-5">
       <div class="container">
-        <div class="cta-panel p-5 d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-4">
-          <div>
-            <span class="eyebrow eyebrow-light">&mdash; Not sure where to start</span>
-            <h2 class="headline-md text-white mb-0">Let sleep choose you.</h2>
-          </div>
-          <a href="shop.html" class="btn btn-accent rounded-pill btn-lg-pill align-self-start align-self-lg-center text-nowrap">
-            Take the comfort quiz &rarr;
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         6. CRAFTSMANSHIP SPLIT
-         ============================================================ -->
-    <section class="bg-mint py-5">
-      <div class="container py-lg-4">
-        <div class="row align-items-center g-4 g-lg-5">
-
-          <div class="col-lg-5">
-            <span class="eyebrow">&mdash; Inside every layer</span>
-            <h2 class="headline-lg mb-4">
-              Better materials.<br>
-              <span class="text-accent">Thoughtful design.</span>
-            </h2>
-            <p class="lead-jag mb-4">
-              Bonnell and pocket springs wound in-house, high-resilience foam, cotton felt
-              and covers stitched on our own quilting line. Nothing arrives half-made.
-            </p>
-            <a href="our-difference.html" class="link-arrow">How we build &rarr;</a>
-          </div>
-
-          <div class="col-lg-7">
-            <div class="arch-panel">
-              <div class="arch-art" aria-hidden="true">
-                <svg width="380" height="380" viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="190" cy="190" r="180" stroke="#F6A96D" stroke-width="1" opacity=".55"/>
-                  <circle cx="190" cy="190" r="140" stroke="#F6A96D" stroke-width="1" opacity=".45"/>
-                  <circle cx="190" cy="190" r="100" stroke="#F6A96D" stroke-width="1" opacity=".35"/>
-                  <path d="M40 190h300M190 40v300" stroke="#F6A96D" stroke-width="1" opacity=".25"/>
-                  <path d="M70 240c60-70 180-70 240 0" stroke="#E8722C" stroke-width="1.5" opacity=".8"/>
-                  <path d="M70 265c60-70 180-70 240 0" stroke="#E8722C" stroke-width="1.5" opacity=".55"/>
-                  <path d="M70 290c60-70 180-70 240 0" stroke="#E8722C" stroke-width="1.5" opacity=".3"/>
-                </svg>
-              </div>
-              <div class="arch-content">
-                <span class="eyebrow eyebrow-light">&mdash; Made by hand, checked twice</span>
-                <p class="headline-lg text-white mb-0">Exceptional<br>craftsmanship.</p>
+        <div class="card border-0 shadow-sm tint-mint rounded-4 p-4 p-lg-5">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+            <div class="d-flex align-items-center gap-3">
+              <i class="bi bi-heart fs-3 text-accent"></i>
+              <div>
+                <h2 class="headline-md mb-1">Need a second opinion?</h2>
+                <p class="mb-0">Tell us how you sleep and we will shortlist three, honestly.</p>
               </div>
             </div>
+            <a href="visit-us.html" class="link-arrow text-nowrap">Talk to us &rarr;</a>
           </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         7. FULL-BLEED ORANGE STORY BAND
-         ============================================================ -->
-    <section class="story-band bg-accent py-5" id="story">
-      <span class="story-watermark" aria-hidden="true">REST</span>
-      <div class="container py-lg-5">
-        <div class="row align-items-center g-4 g-lg-5">
-
-          <div class="col-lg-6">
-            <span class="eyebrow eyebrow-navy">&mdash; Our story</span>
-            <h2 class="headline-lg mb-0">
-              More than two<br>decades of expertise,<br>now in Nepal.
-            </h2>
-          </div>
-
-          <div class="col-lg-5 offset-lg-1">
-            <p class="mb-4">
-              Jagriti began with a single quilting machine and a simple promise: that a good
-              night should not have to be imported. Today the same family runs the floor,
-              the same hands check every roll of foam, and the standard has only gone up.
-            </p>
-            <a href="our-story.html" class="link-arrow">Read the full story &rarr;</a>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         8. DARK QUOTE
-         ============================================================ -->
-    <section class="bg-navy py-5">
-      <div class="container py-lg-5">
-        <div class="row">
-          <div class="col-lg-9">
-            <svg class="quote-mark mb-4" width="56" height="44" viewBox="0 0 56 44" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M0 44V24.6C0 11.7 7.6 2.5 21.6 0l2.4 6.4C15.5 8.7 11 13.6 10.7 21H23v23H0zm33 0V24.6C33 11.7 40.6 2.5 54.6 0L57 6.4C48.5 8.7 44 13.6 43.7 21H56v23H33z"/>
-            </svg>
-            <blockquote class="pull-quote mb-4">
-              &ldquo;We slept on the same mattress for eleven years. When we finally replaced it,
-              we went back to Jagriti without thinking twice &mdash; it is the one thing in the
-              house that never let us down.&rdquo;
-            </blockquote>
-            <p class="stat-label mb-0">Sunita &amp; Rajan Shrestha &middot; Kathmandu, Nepal</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================
-         9. JOURNAL TEASER
-         ============================================================ -->
-    <section class="bg-cream py-5" id="journal">
-      <div class="container py-lg-4">
-
-        <div class="row align-items-end g-4 mb-5">
-          <div class="col-lg-7">
-            <span class="eyebrow">&mdash; The Jagriti journal</span>
-            <h2 class="headline-lg mb-0">A little more room to breathe.</h2>
-          </div>
-          <div class="col-lg-5">
-            <p class="lead-jag mb-3">
-              Short notes on rest, rooms and looking after the mattress you already own.
-            </p>
-            <a href="journal.html" class="link-arrow">All journal notes &rarr;</a>
-          </div>
-        </div>
-
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-
-          <div class="col">
-            <article class="card journal-card tint-mint">
-              <span class="eyebrow mb-3"><span class="journal-num">01</span> &middot; The basics</span>
-              <h3 class="headline-md mb-3">How firm is firm enough?</h3>
-              <p class="product-desc mb-0">A two-minute guide to matching support with the way you sleep.</p>
-              <a href="journal-how-firm.html" class="link-arrow mt-auto pt-4 align-self-start">Read &rarr;</a>
-            </article>
-          </div>
-
-          <div class="col">
-            <article class="card journal-card tint-tan">
-              <span class="eyebrow mb-3"><span class="journal-num">02</span> &middot; Care</span>
-              <h3 class="headline-md mb-3">Rotate, air, repeat.</h3>
-              <p class="product-desc mb-0">Three habits that add years to any mattress, monsoon included.</p>
-              <a href="journal-rotate-air-repeat.html" class="link-arrow mt-auto pt-4 align-self-start">Read &rarr;</a>
-            </article>
-          </div>
-
-          <div class="col">
-            <article class="card journal-card tint-blue">
-              <span class="eyebrow mb-3"><span class="journal-num">03</span> &middot; At home</span>
-              <h3 class="headline-md mb-3">A bedroom that ends the day.</h3>
-              <p class="product-desc mb-0">Light, layers and the small choices that quiet a room down.</p>
-              <a href="journal-bedroom-that-ends-the-day.html" class="link-arrow mt-auto pt-4 align-self-start">Read &rarr;</a>
-            </article>
-          </div>
-
         </div>
       </div>
     </section>
@@ -390,7 +202,7 @@
   </main>
 
   <!-- ============================================================
-       10. FOOTER
+       FOOTER (shared markup with index.html)
        ============================================================ -->
   <footer class="site-footer pt-5">
     <div class="container pt-lg-4">
