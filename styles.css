@@ -180,6 +180,23 @@ a { text-decoration: none; }
   --bs-btn-active-border-color: var(--jagriti-navy);
 }
 
+/* Bootstrap has no "navy" variant, so this one needs spelling out — it is the
+   secondary next to .btn-accent, on the hero, the order form and the dealer page. */
+.btn-outline-navy {
+  --bs-btn-color: var(--jagriti-navy);
+  --bs-btn-bg: transparent;
+  --bs-btn-border-color: rgba(15, 42, 63, .22);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: var(--jagriti-navy);
+  --bs-btn-hover-border-color: var(--jagriti-navy);
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: var(--jagriti-navy-deep);
+  --bs-btn-active-border-color: var(--jagriti-navy-deep);
+  --bs-btn-focus-shadow-rgb: 15, 42, 63;
+  border-width: 1px;
+  font-weight: 600;
+}
+
 /* ---------- Navbar ------------------------------------------------------- */
 
 .site-nav {
@@ -321,6 +338,8 @@ a { text-decoration: none; }
   display: inline-block;
 }
 
+.hero-badges { display: flex; flex-wrap: wrap; gap: .6rem; }
+
 .trust-badge {
   display: inline-flex;
   align-items: center;
@@ -353,6 +372,157 @@ a { text-decoration: none; }
     border-top: 1px solid rgba(255, 255, 255, .16);
     padding-top: 1.25rem;
   }
+}
+
+/* ---------- Filter rows ------------------------------------------------------ */
+
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .6rem .9rem;
+}
+.filter-label {
+  font-family: "Archivo", sans-serif;
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--jagriti-muted);
+  min-width: 5.5rem;
+}
+@media (max-width: 575.98px) {
+  .filter-label { min-width: 100%; }
+}
+
+/* the top finishes every mattress can be ordered in */
+.top-row {
+  margin-top: .55rem;
+  font-size: .78rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+  color: var(--jagriti-muted);
+}
+.top-row .bi { color: var(--jagriti-orange); }
+
+/* ---------- Dealership block ------------------------------------------------- */
+
+.dealer-points { display: grid; gap: .6rem; }
+.dealer-points li {
+  display: flex;
+  align-items: flex-start;
+  gap: .65rem;
+  color: rgba(255, 255, 255, .86);
+}
+.dealer-points .bi {
+  color: var(--jagriti-orange);
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.dealer-card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: 2.25rem;
+  box-shadow: var(--shadow-lift);
+}
+/* the card sits inside .bg-navy, which paints every heading and paragraph
+   white — put the card's own colours back */
+.bg-navy .dealer-card h3 { color: var(--jagriti-navy); }
+.bg-navy .dealer-card p  { color: var(--jagriti-muted); }
+.bg-navy .dealer-card .eyebrow { color: var(--jagriti-muted); }
+.dealer-steps { display: grid; gap: .85rem; }
+.dealer-steps li {
+  display: flex;
+  align-items: center;
+  gap: .85rem;
+  font-size: .95rem;
+  color: var(--jagriti-body);
+}
+.dealer-steps li span {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: var(--jagriti-mint);
+  color: var(--jagriti-navy);
+  font-family: "Archivo", sans-serif;
+  font-weight: 700;
+  font-size: .8rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- Product rail ---------------------------------------------------
+   Four cards to a row, the rest scrolls sideways. The row centres itself
+   while everything fits; main.js adds .is-static for that and drives the
+   arrows. Gap matches Bootstrap g-4 so a rail and a grid line up.          */
+
+.product-rail {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scroll-padding-inline: .35rem;
+  /* room for the card lift and its shadow, which overflow-x would clip */
+  padding: .5rem .35rem 1.5rem;
+  margin-inline: -.35rem;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.product-rail::-webkit-scrollbar { display: none; }
+
+.product-rail:focus-visible {
+  outline: 2px solid var(--jagriti-navy);
+  outline-offset: 4px;
+  border-radius: var(--radius-lg);
+}
+
+.product-rail-item {
+  flex: 0 0 calc((100% - 4.5rem) / 4);   /* four across, three 1.5rem gaps */
+  scroll-snap-align: start;
+  display: flex;
+}
+.product-rail-item > .card { width: 100%; }
+
+/* Nothing to scroll — sit the row in the middle instead of hard left. */
+.product-rail.is-static { justify-content: center; }
+
+@media (max-width: 991.98px) {
+  .product-rail-item { flex-basis: calc((100% - 1.5rem) / 2); }
+}
+@media (max-width: 575.98px) {
+  .product-rail-item { flex-basis: 84%; }
+}
+
+.rail-nav { display: flex; }
+.rail-nav[hidden] { display: none; }
+
+.rail-btn {
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  border: 1px solid var(--jagriti-line);
+  background: #fff;
+  color: var(--jagriti-navy);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  transition: background .2s ease, color .2s ease, border-color .2s ease, opacity .2s ease;
+}
+.rail-btn:hover:not(:disabled) {
+  background: var(--jagriti-navy);
+  border-color: var(--jagriti-navy);
+  color: #fff;
+}
+.rail-btn:disabled { opacity: .3; cursor: default; }
+
+@media (prefers-reduced-motion: reduce) {
+  .product-rail { scroll-behavior: auto; }
 }
 
 /* ---------- Product cards ------------------------------------------------- */

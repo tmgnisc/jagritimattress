@@ -75,7 +75,7 @@
     ? window.bootstrap.Modal.getOrCreateInstance(orderModalEl)
     : null;
 
-  let currentProduct = { name: '', price: '', image: '' };
+  let currentProduct = { name: '', price: '', image: '', variants: [] };
 
   function openOrderForm(button) {
     const card = button.closest('.card') || document;
@@ -85,7 +85,9 @@
       price: (($('.price', card) || {}).textContent || '').trim(),
       image: (($('.product-media img', card) || {}).getAttribute
         ? $('.product-media img', card).getAttribute('src')
-        : '') || ''
+        : '') || '',
+      // "Normal|Pillow top|Euro top" on the lines that come in more than one finish
+      variants: (button.getAttribute('data-variants') || '').split('|').filter(Boolean)
     };
 
     const nameEl = $('[data-order-product]', orderModalEl);
@@ -100,6 +102,20 @@
       imageEl.setAttribute('alt', currentProduct.name);
     }
     if (note) { note.classList.add('d-none'); note.innerHTML = ''; }
+
+    // Top finish: only the products that carry data-variants show the field
+    const variantField = $('[data-order-variant-field]', orderModalEl);
+    const variantSelect = $('[data-order-variant]', orderModalEl);
+    if (variantField && variantSelect) {
+      variantSelect.innerHTML = '';
+      currentProduct.variants.forEach((label) => {
+        const option = document.createElement('option');
+        option.textContent = label;
+        variantSelect.appendChild(option);
+      });
+      variantField.classList.toggle('d-none', currentProduct.variants.length === 0);
+      variantSelect.disabled = currentProduct.variants.length === 0;
+    }
 
     orderModal.show();
   }
@@ -133,13 +149,16 @@
       const lines = [
         'Hello Jagriti Mattress! I would like to place an order.',
         '',
-        'Mattress: ' + currentProduct.name,
+        'Product: ' + currentProduct.name
+      ];
+      if (currentProduct.variants.length) lines.push('Top finish: ' + get('variant'));
+      lines.push(
         'Size: ' + get('size'),
         'Quantity: ' + get('quantity'),
         '',
         'Name: ' + get('name'),
         'Phone: ' + get('phone')
-      ];
+      );
       if (get('email')) lines.push('Email: ' + get('email'));
       lines.push('City / area: ' + get('city'));
       lines.push('Address: ' + get('address'));
@@ -163,6 +182,50 @@
       showToast('Order for ' + currentProduct.name + ' prepared');
     });
   }
+
+  /* ======================================================================
+     Dealership application (dealership.html)
+     Same idea as the order form: no back end, the application is handed to
+     WhatsApp and the applicant presses send.
+     ====================================================================== */
+
+  $$('[data-dealer-form]').forEach((dealerForm) => {
+    dealerForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      if (!dealerForm.checkValidity()) {
+        dealerForm.reportValidity();
+        return;
+      }
+
+      const data = new FormData(dealerForm);
+      const get = (key) => (data.get(key) || '').toString().trim();
+
+      const lines = [
+        'Hello Jagriti Mattress! I would like to apply for a dealership.',
+        '',
+        'Name: ' + get('name'),
+        'Contact number: ' + get('phone'),
+        'Address: ' + get('address'),
+        'Business start date: ' + get('started'),
+        'Wholesale or retail: ' + get('trade')
+      ];
+      if (get('notes')) lines.push('Notes: ' + get('notes'));
+      lines.push('', 'Please send the dealer price list and terms.');
+
+      const link = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(lines.join('\n'));
+      window.open(link, '_blank', 'noopener');
+
+      const note = $('[data-dealer-message]', dealerForm);
+      if (note) {
+        note.innerHTML = 'Your application is ready in WhatsApp — press send there and we will reply within two working days. ' +
+          'If WhatsApp did not open, <a href="' + link + '" target="_blank" rel="noopener">tap here</a>.';
+        note.classList.remove('d-none');
+      }
+
+      showToast('Dealership application prepared');
+    });
+  });
 
   $$('[data-bag-button]').forEach((button) => {
     button.addEventListener('click', () => {
@@ -203,6 +266,49 @@
     });
   });
 
+  /* ======================================================================
+     Product rail
+     Four cards to a row; anything past that scrolls sideways. The arrows
+     move one card at a time and grey out at either end, and a rail whose
+     cards already fit is centred and left alone.
+     ====================================================================== */
+
+  $$('[data-rail]').forEach((rail) => {
+    const section = rail.closest('section') || document;
+    const nav  = $('[data-rail-nav]', section);
+    const prev = $('[data-rail-prev]', section);
+    const next = $('[data-rail-next]', section);
+
+    const step = () => {
+      const item = rail.firstElementChild;
+      if (!item) return rail.clientWidth;
+      const gap = parseFloat(window.getComputedStyle(rail).columnGap) || 0;
+      return item.getBoundingClientRect().width + gap;
+    };
+
+    const paint = () => {
+      // .is-static only changes justify-content, so this stays stable to measure.
+      const scrollable = rail.scrollWidth - rail.clientWidth > 2;
+      const end = rail.scrollWidth - rail.clientWidth - 2;
+
+      rail.classList.toggle('is-static', !scrollable);
+      if (nav) nav.hidden = !scrollable;
+      if (prev) prev.disabled = !scrollable || rail.scrollLeft <= 2;
+      if (next) next.disabled = !scrollable || rail.scrollLeft >= end;
+    };
+
+    if (prev) prev.addEventListener('click', () => rail.scrollBy({ left: -step(), behavior: 'smooth' }));
+    if (next) next.addEventListener('click', () => rail.scrollBy({ left: step(), behavior: 'smooth' }));
+
+    rail.addEventListener('scroll', paint, { passive: true });
+    window.addEventListener('resize', paint);
+
+    // Photos land after the first paint and can change the height, not the
+    // width — but a late webfont can shift it, so re-measure once settled.
+    window.addEventListener('load', paint);
+    paint();
+  });
+
   /* ---------- Product card photo gallery ---------------------------------
      Cards with more than one photo carry a thumbnail strip; clicking a
      thumb swaps the main image (and so what the order form shows).      */
@@ -229,10 +335,11 @@
   const grid = $('[data-product-grid]');
   if (!grid) return;
 
-  const PAGE_SIZE = 8;
+  const PAGE_SIZE = 12;
 
   const cards       = $$('[data-product]', grid);
   const pills       = $$('[data-filter]');
+  const usePills    = $$('[data-filter-use]');
   // Scoped to the dropdown: the product cards also carry data-comfort.
   const comfortOpts = $$('.dropdown-menu [data-comfort]');
   const comfortBtn  = $('[data-comfort-label]');
@@ -249,18 +356,30 @@
     'extra-firm': 'Extra firm'
   };
 
-  const state = { category: 'all', comfort: 'all', query: '', page: 1 };
+  const state = { category: 'all', use: 'all', comfort: 'all', query: '', page: 1 };
 
-  // Cache the searchable text once, rather than on every keystroke.
+  // Cache the searchable text once, rather than on every keystroke. The top
+  // finishes are an attribute rather than copy, so fold them in by hand —
+  // otherwise "pillow top" would not find Core Plus or Royal.
   cards.forEach((card) => {
-    card.dataset.haystack = (card.textContent || '').toLowerCase().replace(/\s+/g, ' ');
+    const finishes = $$('[data-variants]', card)
+      .map((button) => button.getAttribute('data-variants').replace(/\|/g, ' '))
+      .join(' ');
+    card.dataset.haystack = ((card.textContent || '') + ' ' + finishes)
+      .toLowerCase().replace(/\s+/g, ' ');
   });
+
+  // data-use holds one or more tokens ("home hotel"), so a piece can be sold
+  // for more than one setting.
+  const usedFor = (card, use) =>
+    (card.dataset.use || '').split(/\s+/).indexOf(use) !== -1;
 
   const matches = (card) => {
     const okCategory = state.category === 'all' || card.dataset.category === state.category;
+    const okUse      = state.use      === 'all' || usedFor(card, state.use);
     const okComfort  = state.comfort  === 'all' || card.dataset.comfort  === state.comfort;
     const okQuery    = !state.query || card.dataset.haystack.indexOf(state.query) !== -1;
-    return okCategory && okComfort && okQuery;
+    return okCategory && okUse && okComfort && okQuery;
   };
 
   function buildPagination(totalPages) {
@@ -339,6 +458,21 @@
     });
   });
 
+  /* ---------- Use pills ----------------------------------------------------- */
+
+  usePills.forEach((pill) => {
+    pill.addEventListener('click', () => {
+      state.use = pill.getAttribute('data-filter-use');
+      state.page = 1;
+      usePills.forEach((other) => {
+        const isActive = other === pill;
+        other.classList.toggle('btn-dark', isActive);
+        other.classList.toggle('btn-outline-dark', !isActive);
+      });
+      render();
+    });
+  });
+
   /* ---------- Comfort dropdown -------------------------------------------- */
 
   comfortOpts.forEach((option) => {
@@ -380,6 +514,7 @@
   $$('[data-reset-filters]').forEach((button) => {
     button.addEventListener('click', () => {
       state.category = 'all';
+      state.use = 'all';
       state.comfort = 'all';
       state.query = '';
       state.page = 1;
@@ -387,6 +522,11 @@
       if (searchInput) searchInput.value = '';
       pills.forEach((pill) => {
         const isAll = pill.getAttribute('data-filter') === 'all';
+        pill.classList.toggle('btn-dark', isAll);
+        pill.classList.toggle('btn-outline-dark', !isAll);
+      });
+      usePills.forEach((pill) => {
+        const isAll = pill.getAttribute('data-filter-use') === 'all';
         pill.classList.toggle('btn-dark', isAll);
         pill.classList.toggle('btn-outline-dark', !isAll);
       });
@@ -405,10 +545,21 @@
   const urlCategory = (params.get('category') || '').trim().toLowerCase();
   const urlQuery = (params.get('q') || '').trim();
 
-  if (['everyday', 'premium', 'signature'].indexOf(urlCategory) !== -1) {
+  const urlUse = (params.get('use') || '').trim().toLowerCase();
+
+  if (['coir', 'rebonded', 'spring', 'foam', 'bedding'].indexOf(urlCategory) !== -1) {
     state.category = urlCategory;
     pills.forEach((pill) => {
       const isActive = pill.getAttribute('data-filter') === urlCategory;
+      pill.classList.toggle('btn-dark', isActive);
+      pill.classList.toggle('btn-outline-dark', !isActive);
+    });
+  }
+
+  if (['home', 'hotel', 'personal', 'kids', 'hostel'].indexOf(urlUse) !== -1) {
+    state.use = urlUse;
+    usePills.forEach((pill) => {
+      const isActive = pill.getAttribute('data-filter-use') === urlUse;
       pill.classList.toggle('btn-dark', isActive);
       pill.classList.toggle('btn-outline-dark', !isActive);
     });
